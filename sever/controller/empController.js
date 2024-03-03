@@ -1,11 +1,9 @@
 const Emp = require("../model/empModel");
 
 const empController = {
+  //create new employee
 
-
-    //create new employee
-
-//req ekn body ek gnnwa.req ekn body ek arn data base eke store krl record ek add krnw.success unoth res ek succes kiyl ywnwa nethnm error msg kk display krnwa.
+  //req ekn body ek gnnwa.req ekn body ek arn data base eke store krl record ek add krnw.success unoth res ek succes kiyl ywnwa nethnm error msg kk display krnwa.
   add: async (req, res) => {
     try {
       const { name, email, age, jobRole, mobile, address } = req.body;
@@ -43,42 +41,47 @@ const empController = {
 
   //view only one employee details
 
-  getEmployee: (async (req, res) => {
+  getEmployee: async (req, res) => {
     try {
       const emp = await Emp.findById(req.params.id);
       return res.status(200).json(emp);
     } catch (error) {
-        return res.status(500).json({ msg: error.message });
+      return res.status(500).json({ msg: error.message });
     }
-  }),
+  },
 
   //update employee details
 
-  updateEmployee: (async(req, res)=>{
+  updateEmployee: async (req, res) => {
     try {
-        const {name, email, age, jobRole, mobile, address} = req.body
-        await Emp.findByIdAndUpdate(req.params.id, {
-            name, email, age, jobRole, mobile, address
-        })
+      const { name, email, age, jobRole, mobile, address } = req.body;
+      await Emp.findByIdAndUpdate(req.params.id, {
+        name,
+        email,
+        age,
+        jobRole,
+        mobile,
+        address,
+      });
 
-        return res.status(200).json({msg: "Record succesfully update."})
+      return res.status(200).json({ msg: "Record succesfully update." });
     } catch (error) {
-        return res.status(500).json({ msg: error.message });
+      return res.status(500).json({ msg: error.message });
     }
-  }),
+  },
 
   //delete employee
 
-  deleteEmployee:(async(req, res)=>{
+  deleteEmployee: async (req, res) => {
     try {
-        const emp = await Emp.findByIdAndDelete(req.params.id)
-        if(!emp) return res.status(400).json({msg: "No employee records!"})
+      const emp = await Emp.findByIdAndDelete(req.params.id);
+      if (!emp) return res.status(400).json({ msg: "No employee records!" });
 
-        return res.status(200).json({msg: "Succesfully deleted."})
+      return res.status(200).json({ msg: "Succesfully deleted." });
     } catch (error) {
-        return res.status(500).json({ msg: error.message });
+      return res.status(500).json({ msg: error.message });
     }
-  })
+  },
 };
 
 module.exports = empController;
